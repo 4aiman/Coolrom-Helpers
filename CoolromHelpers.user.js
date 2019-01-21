@@ -9,8 +9,10 @@
 // @grant        none
 // ==/UserScript==
 
+
 (function() {
     'use strict';
+    console.log("Working with "+window.location.href);
     if (typeof time !== 'undefined') {
         time = 0;
     }
@@ -25,8 +27,36 @@
         var sub = "downloader.php?";
         if (link.indexOf(sub) !== -1){
             var sublink = link.substr(link.indexOf('=')+1);
-            div.href = "javascript:void(window.open('/dlpop.php?id="+sublink+"', 'filedownload', 'height=560,width=700,status=no,scrollbars=no,toolbar=no,menubar=no,location=no,resizable=no'));"
+            var href = "/dlpop.php?id="+sublink;
+            div.href="javascript:void();"
+            div.onclick = function(){
+                var element = document.createElement("iframe");
+                element.setAttribute('id', 'myframe');
+                element.src = href;
+                document.body.appendChild(element);
+                element.style.width="100px";
+                element.style.height="100px";
+                element.style.position="absolute";
+            };
+
         }
     }
 
+    function download2() {
+        var selectForm = document.forms[0];
+        if (window.location.href.indexOf("dlpop.php") !== -1) {
+            var link = window.location.href;
+            var sublink = link.substr(link.indexOf('=')+1);
+            var url = "http://coolrom.com.au/downloader.php?id="+sublink;
+            if (typeof selectForm !== 'undefined') {
+                selectForm.submit();
+                console.log("downloading...");
+            } else {
+                setTimeout(download2,1000);
+                console.log("waiting...");
+            }
+        }
+	}
+
+    download2();
 })();
