@@ -34,8 +34,7 @@
                 element.setAttribute('id', 'myframe');
                 element.src = href;
                 document.body.appendChild(element);
-                element.style.width="100px";
-                element.style.height="100px";
+                element.style.display="none";
                 element.style.position="absolute";
             };
 
